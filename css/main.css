@@ -1,16 +1,32 @@
 html, body {
     min-height: 100vh;
     min-width: 100vw;
+
 }
 
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-.fill_yellow {
-    background: #f9d300;
+.wrapper-padded {
 
+    /*padding: 20px;*/
+}
+
+html {
+    font-size: 16px;
+}
+
+header {
+    height: 80px;
+    /*padding: 20px;*/
+}
+
+.bg-main {
+    background: url('../assets/bg.jpg') no-repeat center;
+    background-size: 100% 100%;
 
 }
 
@@ -19,12 +35,87 @@ html, body {
     height: 100vh;
 }
 
-.bg-image {
-    position: relative;
-    top: 0px;
-    left: 0px;
-    width: 100vw;
-    height: 100vh;
+.logo {
+
+    -webkit-mask-image: url('../assets/mask.png');
+    float: left;
+    display: block;
+}
+
+.logo-wrapper {
+    padding-left: 20px;
+}
+
+.main-nav {
+    height: 100%;
+    float: right;
 
 }
+
+.logo-text > a {
+    display: block;
+    width: 313px;
+    height: 67px;
+    font-size: 3.125em;
+    font-family: 'aktiv-grotesk-std', 'Helvetica Neue Light', 'Segoe UI Light', Lato, Arial, sans-serif;
+    color: rgb(255, 255, 255);
+    font-weight: 700;
+    line-height: 55px;
+    border: 6px rgb(255, 255, 255) solid;
+    text-align: center;
+
+}
+
+.nav-menu {
+    list-style: none;
+    display: block;
+    float: right;
+}
+
+.nav-item {
+    float: left;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+.nav-item > a {
+
+    font-family: 'aktiv-grotesk-std', 'Helvetica Neue Light', 'Segoe UI Light', Lato, Arial, sans-serif;
+    font-size: 18px;
+    height: 100%;
+    line-height: 80px;
+    font-weight: 200;
+    display: inline-block;
+    float: left;
+    width: 120px;
+    text-align: center;
+
+}
+
+.nav-item > a:active, .nav-item > a:hover {
+
+    background-color: rgba(7, 4, 24, 0.49);
+
+}
+
+.callout {
+    font-size: 48px;
+    font-family: 'aktiv-grotesk-std', 'Helvetica Neue Light', 'Segoe UI Light', Lato, Arial, sans-serif;
+    color: rgb(255, 255, 255);
+    text-align: center;
+
+    font-weight: 200;
+    width: 550px;
+    height: 151px;
+    margin: auto;
+    margin-top: 100px;
+
+}
+
+
+
+
 
