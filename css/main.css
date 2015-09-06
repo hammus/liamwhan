@@ -10,6 +10,11 @@ html, body {
     box-sizing: border-box;
 }
 
+a {
+    color: white;
+    text-decoration: none;
+}
+
 .wrapper-padded {
 
     /*padding: 20px;*/
@@ -24,7 +29,16 @@ header {
     /*padding: 20px;*/
 }
 
-.bg-main {
+
+.slide {
+    width: 100vw;
+    height: 100vh;
+    clear: both;
+
+
+}
+
+.bg-sunset {
     background: url('../assets/bg.jpg') no-repeat center;
     background-size: 100% 100%;
 
@@ -46,12 +60,6 @@ header {
     padding-left: 20px;
 }
 
-.main-nav {
-    height: 100%;
-    float: right;
-
-}
-
 .logo-text > a {
     display: block;
     width: 313px;
@@ -66,43 +74,55 @@ header {
 
 }
 
+
+.main-nav {
+    height: 100%;
+    float: right;
+
+}
+
 .nav-menu {
     list-style: none;
     display: block;
     float: right;
+    width: 100%;
+
+
 }
 
-.nav-item {
-    float: left;
-}
 
-a {
-    color: white;
-    text-decoration: none;
-}
+
+
 
 .nav-item > a {
 
     font-family: 'aktiv-grotesk-std', 'Helvetica Neue Light', 'Segoe UI Light', Lato, Arial, sans-serif;
-    font-size: 18px;
+    font-size: 1.125em;
     height: 100%;
     line-height: 80px;
     font-weight: 200;
     display: inline-block;
     float: left;
-    width: 120px;
+    width: 100%;
     text-align: center;
 
 }
 
-.nav-item > a:active, .nav-item > a:hover {
+
+.nav-item > a:hover,
+.nav-item > a:active,
+.nav-item:hover,
+.nav-item:active {
 
     background-color: rgba(7, 4, 24, 0.49);
 
 }
 
+
+
+
 .callout {
-    font-size: 48px;
+    font-size: 4em;
     font-family: 'aktiv-grotesk-std', 'Helvetica Neue Light', 'Segoe UI Light', Lato, Arial, sans-serif;
     color: rgb(255, 255, 255);
     text-align: center;
@@ -110,12 +130,50 @@ a {
     font-weight: 200;
     width: 550px;
     height: 151px;
-    margin: auto;
-    margin-top: 100px;
+    margin: 100px auto auto;
 
 }
 
 
+
+.hidden-desktop {
+    display:none;
+}
+
+/** REsponsive **/
+@media only screen and (max-width: 760px) {
+    .hidden-phone {
+        display: none !important;
+    }
+
+    img.visible-phone {
+        display: block !important;
+    }
+
+    .nav-item {
+        background: rgba(40, 36, 44, 0.5);
+
+    }
+
+
+    .nav-item > a:hover,
+    .nav-item > a:active,
+    .nav-item:hover,
+    .nav-item:active
+    {
+        background-color: rgba(144, 100, 79, 0.5);
+    }
+
+
+    html {
+        font-size: 20px;
+    }
+
+
+    .collapse-phone {
+
+    }
+}
 
 
 
