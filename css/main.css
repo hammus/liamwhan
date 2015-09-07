@@ -15,6 +15,19 @@ a {
     text-decoration: none;
 }
 
+
+.debug-switch {
+    display: block;
+    height:20px;
+    width: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background: #4099ff;
+}
+
+
 .wrapper-padded {
 
     /*padding: 20px;*/
@@ -27,21 +40,31 @@ html {
 header {
     height: 80px;
     /*padding: 20px;*/
-}
-
-
-.slide {
     width: 100vw;
-    height: 100vh;
-    clear: both;
-
 
 }
+
+
+/*.slide {*/
+
+    /*height: 100vh;*/
+    /*clear: both;*/
+
+
+/*}*/
+
+
 
 .bg-sunset {
     background: url('../assets/bg.jpg') no-repeat center;
     background-size: 100% 100%;
 
+
+}
+
+.bg-sky {
+    background: url('../assets/sky.png') no-repeat center;
+    background-size: 100% 100%;
 }
 
 .width-full {
@@ -130,7 +153,7 @@ header {
     font-weight: 200;
     width: 550px;
     height: 151px;
-    margin: 100px auto auto;
+    margin: 300px auto auto;
 
 }
 

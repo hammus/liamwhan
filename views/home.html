@@ -1,13 +1,41 @@
-<div class="slide bg-sunset" id="home">
-<div data-ng-include="headerSrc"></div>
-    <main>
+<!--<div data-ng-include="headerSrc"></div>-->
+<main>
+    <!--<div class="debug-switch">-->
+    <!--<label>Debug: <input type="checkbox" id="debug-check" ng-model="dbg"/></label>-->
 
-        <article class="callout">
-            <p>freelance designer,<br/>
-                web developer<br/>
-                and all round decent bloke<br/>
-            </p>
+    <!--</div>-->
+    <section class="parallax" id="slide1">
+        <div class="parallax__group" id="home">
+
+
+            </div>
+            <article class="parallax__layer parallax__layer--base bg-sunset">
+                <div class="callout">
+                    <p>web developer,<br/>
+                        node.js ninja<br/>
+                        angular.js aficionado<br/>
+                        decent bloke<br/>
+                    </p>
+                </div>
+
+
+                <!--<article class="jband">-->
+                <!--<img src="assets/JukeBand.png">-->
+                <!--</article>-->
+            </article>
+        </div>
+
+    </section>
+    <section class="parallax" id="slide2">
+        <div class="parallax__layer parallax__layer--back bg-sky">
+        <article class="parallax__layer parallax__layer--base">
+            <div class="callout">
+                <p style="color: black">web developer,<br/>
+                    javascript ninja<br/>
+                    decent bloke<br/>
+                </p>
+            </div>
         </article>
-
-    </main>
-    </div>
+        </div>
+    </section>
+</main>
