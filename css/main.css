@@ -1,6 +1,5 @@
 html, body {
     min-height: 100vh;
-    min-width: 100vw;
 
 }
 
@@ -151,7 +150,7 @@ header {
     text-align: center;
 
     font-weight: 200;
-    width: 550px;
+    width: 50%;
     height: 151px;
     margin: 300px auto auto;
 

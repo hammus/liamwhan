@@ -18,47 +18,51 @@ $(document).ready(function() {
         console.log("Viewport = { x: " + vw() + ", y: " + vh() + "}\n");
     }
 
-    function tweener(from, to, duration, loop, callback) {
+    function Tweener(from, to, duration, loop, callback) {
         //Private
-        var _startTime = 0, _progress = 0, _lastUpdate = 0, _animFrameRef;
-        var inst = {
-            from: from,
-            to: to,
-            delta: this.to - this.from,
-            duration: duration || 1000,
-            callback: callback,
-            callbackArguments: cbArgs,
-            loop: loop || false,
-            end: this.to - this.from,
-
-            play: function () {
-                _start = Date.now();
-
-                _animFrameRef = window.requestAnimationFrame(tweener.tick);
-            },
-            tick: function () {
-                //Clamp progress
-                _progress = (_progress > 1) ? 1 : _progress;
-
-                var now = Date.now();
-                var alpha = (now - _startTime) / duration;
-
-                _lastUpdate = now;
-
-                update(alpha);
+        var _startTime = Date.now(),
+            _progress = 0,
+            _lastUpdate = Date.now(),
+            _animFrameRef,
+            _callback = callback;
 
 
-            },
-            update: function (alpha) {
+            this.from =  from;
+            this.to = to;
+            this.duration = duration || 1000;
+            this.loop = loop || false;
+            this.end = this.to - this.from;
 
-            },
-            stop: function () {
-                window.cancelAnimationFrame(_animFrameRef);
-            }
         }
 
-        return inst;
-    }
+
+    };
+
+Tweener.prototype.play = function () {
+    _start = Date.now();
+
+    _animFrameRef = window.requestAnimationFrame(tweener.tick);
+};
+
+Tweener.tick = function () {
+    //Clamp progress
+    _progress = (_progress > 1) ? 1 : _progress;
+
+    var now = Date.now();
+    var delta = (now - _startTime) / duration;
+
+    _lastUpdate = now;
+
+    update(delta);
+
+
+},
+update: function (dt) {
+
+},
+stop: function () {
+    window.cancelAnimationFrame(_animFrameRef);
+}
 
     function rgbShift(canvas, context, shiftRadius) {
         if (!shiftRadius) shiftRadius = 10;
@@ -136,43 +140,10 @@ $(document).ready(function() {
 
             rgbShift(canvas, context, 5);
 
-
-            // mask.onload = function() {
-            //    //Init memory store, mask.
-            //    _maskCanvas.width  = mask.width;
-            //    _maskCanvas.height = mask.height;
-            //    _maskCtx.drawImage(mask, 0, 0);
-            //    _maskData = _maskCanvas.toDataURL();
-            //
-            //    drawMasked(canvas, context, img, mask);
-            //
-            //
-            //
-            //
-            //};
-            //mask.src = "assets/sydney_SIL_mask.png";
-
         };
         img.src = "assets/bg.jpg";
 
-        //window.onresize = function() {
-        //
-        //
-        //    var newImg = new Image();
-        //    var newMask = new Image();
-        //
-        //    newImg.onload = function() {
-        //
-        //        newMask.onload = function() {
-        //
-        //            drawMasked(canvas, context, newImg, newMask);
-        //
-        //        };
-        //        newMask.src = _maskData;
-        //
-        //    };
-        //    newImg.src = _imageDataUrl;
-        //}
+
     }
 
     //
