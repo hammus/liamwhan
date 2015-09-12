@@ -1,443 +1,172 @@
-// Generated on 2015-09-09 using
-// generator-webapp 1.0.1
-'use strict';
+/* global module:false */
+module.exports = function(grunt) {
+	var port = grunt.option('port') || 8000;
+	var base = grunt.option('base') || '.';
 
-// # Globbing
-// for performance reasons we're only matching one level down:
-// 'test/spec/{,*/}*.js'
-// If you want to recursively match all subfolders, use:
-// 'test/spec/**/*.js'
+	// Project configuration
+	grunt.initConfig({
+		pkg: grunt.file.readJSON('package.json'),
+		meta: {
+			banner:
+				'/*!\n' +
+				' * reveal.js <%= pkg.version %> (<%= grunt.template.today("yyyy-mm-dd, HH:MM") %>)\n' +
+				' * http://lab.hakim.se/reveal-js\n' +
+				' * MIT licensed\n' +
+				' *\n' +
+				' * Copyright (C) 2015 Hakim El Hattab, http://hakim.se\n' +
+				' */'
+		},
 
-module.exports = function (grunt) {
+		qunit: {
+			files: [ 'test/*.html' ]
+		},
 
-  // Time how long tasks take. Can help when optimizing build times
-  require('time-grunt')(grunt);
+		uglify: {
+			options: {
+				banner: '<%= meta.banner %>\n'
+			},
+			build: {
+				src: 'js/reveal.js',
+				dest: 'js/reveal.min.js'
+			}
+		},
 
-  // Automatically load required grunt tasks
-  require('jit-grunt')(grunt, {
-      useminPrepare: 'grunt-usemin'
-  });
+		sass: {
+			core: {
+				files: {
+					'css/reveal.css': 'css/reveal.scss',
+				}
+			},
+			themes: {
+				files: [
+					{
+						expand: true,
+						cwd: 'css/theme/source',
+						src: ['*.scss'],
+						dest: 'css/theme',
+						ext: '.css'
+					}
+				]
+			}
+		},
 
-  // Configurable paths
-  var config = {
-    app: 'app',
-    dist: 'dist'
-  };
+		autoprefixer: {
+			dist: {
+				src: 'css/reveal.css'
+			}
+		},
 
-  // Define the configuration for all the tasks
-  grunt.initConfig({
+		cssmin: {
+			compress: {
+				files: {
+					'css/reveal.min.css': [ 'css/reveal.css' ]
+				}
+			}
+		},
 
-    // Project settings
-    config: config,
+		jshint: {
+			options: {
+				curly: false,
+				eqeqeq: true,
+				immed: true,
+				latedef: true,
+				newcap: true,
+				noarg: true,
+				sub: true,
+				undef: true,
+				eqnull: true,
+				browser: true,
+				expr: true,
+				globals: {
+					head: false,
+					module: false,
+					console: false,
+					unescape: false,
+					define: false,
+					exports: false
+				}
+			},
+			files: [ 'Gruntfile.js', 'js/reveal.js' ]
+		},
 
-    // Watches files for changes and runs tasks based on the changed files
-    watch: {
-      bower: {
-        files: ['bower.json'],
-        tasks: ['wiredep']
-      },
-      babel: {
-        files: ['<%= config.app %>/scripts/{,*/}*.js'],
-        tasks: ['babel:dist']
-      },
-      babelTest: {
-        files: ['test/spec/{,*/}*.js'],
-        tasks: ['babel:test', 'test:watch']
-      },
-      gruntfile: {
-        files: ['Gruntfile.js']
-      },
-      sass: {
-        files: ['<%= config.app %>/styles/{,*/}*.{scss,sass}'],
-        tasks: ['sass:server', 'postcss']
-      },
-      styles: {
-        files: ['<%= config.app %>/styles/{,*/}*.css'],
-        tasks: ['newer:copy:styles', 'postcss']
-      }
-    },
+		connect: {
+			server: {
+				options: {
+					port: port,
+					base: base,
+					livereload: true,
+					open: true
+				}
+			}
+		},
 
-    browserSync: {
-      options: {
-        notify: false,
-        background: true
-      },
-      livereload: {
-        options: {
-          files: [
-            '<%= config.app %>/{,*/}*.html',
-            '.tmp/styles/{,*/}*.css',
-            '<%= config.app %>/images/{,*/}*',
-            '.tmp/scripts/{,*/}*.js'
-          ],
-          port: 9000,
-          server: {
-            baseDir: ['.tmp', config.app],
-            routes: {
-              '/bower_components': './bower_components'
-            }
-          }
-        }
-      },
-      test: {
-        options: {
-          port: 9001,
-          open: false,
-          logLevel: 'silent',
-          host: 'localhost',
-          server: {
-            baseDir: ['.tmp', './test', config.app],
-            routes: {
-              '/bower_components': './bower_components'
-            }
-          }
-        }
-      },
-      dist: {
-        options: {
-          background: false,
-          server: '<%= config.dist %>'
-        }
-      }
-    },
+		zip: {
+			'reveal-js-presentation.zip': [
+				'index.html',
+				'css/**',
+				'js/**',
+				'lib/**',
+				'images/**',
+				'plugin/**'
+			]
+		},
 
-    // Empties folders to start fresh
-    clean: {
-      dist: {
-        files: [{
-          dot: true,
-          src: [
-            '.tmp',
-            '<%= config.dist %>/*',
-            '!<%= config.dist %>/.git*'
-          ]
-        }]
-      },
-      server: '.tmp'
-    },
+		watch: {
+			options: {
+				livereload: true
+			},
+			js: {
+				files: [ 'Gruntfile.js', 'js/reveal.js' ],
+				tasks: 'js'
+			},
+			theme: {
+				files: [ 'css/theme/source/*.scss', 'css/theme/template/*.scss' ],
+				tasks: 'css-themes'
+			},
+			css: {
+				files: [ 'css/reveal.scss' ],
+				tasks: 'css-core'
+			},
+			html: {
+				files: [ 'index.html']
+			}
+		}
 
-    // Make sure code styles are up to par and there are no obvious mistakes
-    eslint: {
-      target: [
-        'Gruntfile.js',
-        '<%= config.app %>/scripts/{,*/}*.js',
-        '!<%= config.app %>/scripts/vendor/*',
-        'test/spec/{,*/}*.js'
-      ]
-    },
+	});
 
-    // Mocha testing framework configuration options
-    mocha: {
-      all: {
-        options: {
-          run: true,
-          urls: ['http://<%= browserSync.test.options.host %>:<%= browserSync.test.options.port %>/index.html']
-        }
-      }
-    },
+	// Dependencies
+	grunt.loadNpmTasks( 'grunt-contrib-qunit' );
+	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
+	grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
+	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
+	grunt.loadNpmTasks( 'grunt-contrib-watch' );
+	grunt.loadNpmTasks( 'grunt-sass' );
+	grunt.loadNpmTasks( 'grunt-contrib-connect' );
+	grunt.loadNpmTasks( 'grunt-autoprefixer' );
+	grunt.loadNpmTasks( 'grunt-zip' );
 
-    // Compiles ES6 with Babel
-    babel: {
-      options: {
-          sourceMap: true
-      },
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= config.app %>/scripts',
-          src: '{,*/}*.js',
-          dest: '.tmp/scripts',
-          ext: '.js'
-        }]
-      },
-      test: {
-        files: [{
-          expand: true,
-          cwd: 'test/spec',
-          src: '{,*/}*.js',
-          dest: '.tmp/spec',
-          ext: '.js'
-        }]
-      }
-    },
+	// Default task
+	grunt.registerTask( 'default', [ 'css', 'js' ] );
 
-    // Compiles Sass to CSS and generates necessary files if requested
-    sass: {
-      options: {
-        sourceMap: true,
-        sourceMapEmbed: true,
-        sourceMapContents: true,
-        includePaths: ['.']
-      },
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= config.app %>/styles',
-          src: ['*.{scss,sass}'],
-          dest: '.tmp/styles',
-          ext: '.css'
-        }]
-      },
-      server: {
-        files: [{
-          expand: true,
-          cwd: '<%= config.app %>/styles',
-          src: ['*.{scss,sass}'],
-          dest: '.tmp/styles',
-          ext: '.css'
-        }]
-      }
-    },
+	// JS task
+	grunt.registerTask( 'js', [ 'jshint', 'uglify', 'qunit' ] );
 
-    postcss: {
-      options: {
-        map: true,
-        processors: [
-          // Add vendor prefixed styles
-          require('autoprefixer-core')({
-            browsers: ['> 1%', 'last 2 versions', 'Firefox ESR', 'Opera 12.1']
-          })
-        ]
-      },
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '.tmp/styles/',
-          src: '{,*/}*.css',
-          dest: '.tmp/styles/'
-        }]
-      }
-    },
+	// Theme CSS
+	grunt.registerTask( 'css-themes', [ 'sass:themes' ] );
 
-    // Automatically inject Bower components into the HTML file
-    wiredep: {
-      app: {
-        src: ['<%= config.app %>/index.html'],
-        ignorePath: /^(\.\.\/)*\.\./
-      },
-      sass: {
-        src: ['<%= config.app %>/styles/{,*/}*.{scss,sass}'],
-        ignorePath: /^(\.\.\/)+/
-      }
-    },
+	// Core framework CSS
+	grunt.registerTask( 'css-core', [ 'sass:core', 'autoprefixer', 'cssmin' ] );
 
-    // Renames files for browser caching purposes
-    filerev: {
-      dist: {
-        src: [
-          '<%= config.dist %>/scripts/{,*/}*.js',
-          '<%= config.dist %>/styles/{,*/}*.css',
-          '<%= config.dist %>/images/{,*/}*.*',
-          '<%= config.dist %>/styles/fonts/{,*/}*.*',
-          '<%= config.dist %>/*.{ico,png}'
-        ]
-      }
-    },
+	// All CSS
+	grunt.registerTask( 'css', [ 'sass', 'autoprefixer', 'cssmin' ] );
 
-    // Reads HTML for usemin blocks to enable smart builds that automatically
-    // concat, minify and revision files. Creates configurations in memory so
-    // additional tasks can operate on them
-    useminPrepare: {
-      options: {
-        dest: '<%= config.dist %>'
-      },
-      html: '<%= config.app %>/index.html'
-    },
+	// Package presentation to archive
+	grunt.registerTask( 'package', [ 'default', 'zip' ] );
 
-    // Performs rewrites based on rev and the useminPrepare configuration
-    usemin: {
-      options: {
-        assetsDirs: [
-          '<%= config.dist %>',
-          '<%= config.dist %>/images',
-          '<%= config.dist %>/styles'
-        ]
-      },
-      html: ['<%= config.dist %>/{,*/}*.html'],
-      css: ['<%= config.dist %>/styles/{,*/}*.css']
-    },
+	// Serve presentation locally
+	grunt.registerTask( 'serve', [ 'connect', 'watch' ] );
 
-    // The following *-min tasks produce minified files in the dist folder
-    imagemin: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= config.app %>/images',
-          src: '{,*/}*.{gif,jpeg,jpg,png}',
-          dest: '<%= config.dist %>/images'
-        }]
-      }
-    },
+	// Run tests
+	grunt.registerTask( 'test', [ 'jshint', 'qunit' ] );
 
-    svgmin: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= config.app %>/images',
-          src: '{,*/}*.svg',
-          dest: '<%= config.dist %>/images'
-        }]
-      }
-    },
-
-    htmlmin: {
-      dist: {
-        options: {
-          collapseBooleanAttributes: true,
-          collapseWhitespace: true,
-          conservativeCollapse: true,
-          removeAttributeQuotes: true,
-          removeCommentsFromCDATA: true,
-          removeEmptyAttributes: true,
-          removeOptionalTags: true,
-          // true would impact styles with attribute selectors
-          removeRedundantAttributes: false,
-          useShortDoctype: true
-        },
-        files: [{
-          expand: true,
-          cwd: '<%= config.dist %>',
-          src: '{,*/}*.html',
-          dest: '<%= config.dist %>'
-        }]
-      }
-    },
-
-    // By default, your `index.html`'s <!-- Usemin block --> will take care
-    // of minification. These next options are pre-configured if you do not
-    // wish to use the Usemin blocks.
-    // cssmin: {
-    //   dist: {
-    //     files: {
-    //       '<%= config.dist %>/styles/main.css': [
-    //         '.tmp/styles/{,*/}*.css',
-    //         '<%= config.app %>/styles/{,*/}*.css'
-    //       ]
-    //     }
-    //   }
-    // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= config.dist %>/scripts/scripts.js': [
-    //         '<%= config.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
-
-    // Copies remaining files to places other tasks can use
-    copy: {
-      dist: {
-        files: [{
-          expand: true,
-          dot: true,
-          cwd: '<%= config.app %>',
-          dest: '<%= config.dist %>',
-          src: [
-            '*.{ico,png,txt}',
-            'images/{,*/}*.webp',
-            '{,*/}*.html',
-            'styles/fonts/{,*/}*.*'
-          ]
-        }]
-      }
-    },
-
-    // Generates a custom Modernizr build that includes only the tests you
-    // reference in your app
-    modernizr: {
-      dist: {
-        devFile: 'bower_components/modernizr/modernizr.js',
-        outputFile: '<%= config.dist %>/scripts/vendor/modernizr.js',
-        files: {
-          src: [
-            '<%= config.dist %>/scripts/{,*/}*.js',
-            '<%= config.dist %>/styles/{,*/}*.css',
-            '!<%= config.dist %>/scripts/vendor/*'
-          ]
-        },
-        uglify: true
-      }
-    },
-
-    // Run some tasks in parallel to speed up build process
-    concurrent: {
-      server: [
-        'babel:dist',
-        'sass:server'
-      ],
-      test: [
-        'babel'
-      ],
-      dist: [
-        'babel',
-        'sass',
-        'imagemin',
-        'svgmin'
-      ]
-    }
-  });
-
-
-  grunt.registerTask('serve', 'start the server and preview your app', function (target) {
-
-    if (target === 'dist') {
-      return grunt.task.run(['build', 'browserSync:dist']);
-    }
-
-    grunt.task.run([
-      'clean:server',
-      'wiredep',
-      'concurrent:server',
-      'postcss',
-      'browserSync:livereload',
-      'watch'
-    ]);
-  });
-
-  grunt.registerTask('server', function (target) {
-    grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
-    grunt.task.run([target ? ('serve:' + target) : 'serve']);
-  });
-
-  grunt.registerTask('test', function (target) {
-    if (target !== 'watch') {
-      grunt.task.run([
-        'clean:server',
-        'concurrent:test',
-        'postcss'
-      ]);
-    }
-
-    grunt.task.run([
-      'browserSync:test',
-      'mocha'
-    ]);
-  });
-
-  grunt.registerTask('build', [
-    'clean:dist',
-    'wiredep',
-    'useminPrepare',
-    'concurrent:dist',
-    'postcss',
-    'concat',
-    'cssmin',
-    'uglify',
-    'copy:dist',
-    'modernizr',
-    'filerev',
-    'usemin',
-    'htmlmin'
-  ]);
-
-  grunt.registerTask('default', [
-    'newer:eslint',
-    'test',
-    'build'
-  ]);
 };
