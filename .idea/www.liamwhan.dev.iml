@@ -8,6 +8,6 @@
     <orderEntry type="library" name="fabric" level="application" />
     <orderEntry type="library" name="jquery-2.1.4" level="application" />
     <orderEntry type="library" name="rfb0soz" level="application" />
-    <orderEntry type="library" name="angularjs-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="www.liamwhan.dev node_modules" level="project" />
   </component>
 </module>
